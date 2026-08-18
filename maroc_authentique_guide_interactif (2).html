@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maroc Authentique - Guide Digital Interactif & Compagnon IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+
+        :root {
+            --majorelle: #0038A8;
+            --terracotta: #E2725B;
+            --sand: #F4EFE6;
+            --charcoal: #2B2B2B;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--sand);
+            color: var(--charcoal);
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3 {
+            font-family: 'League Spartan', sans-serif;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 280px;
+        }
+
+        .tab-active {
+            border-bottom: 4px solid var(--majorelle);
+            color: var(--majorelle);
+            font-weight: bold;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--sand);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--terracotta);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative">
+
+    <!-- Toast Notification Element -->
+    <div id="custom-notification" class="hidden fixed bottom-5 right-5 z-50 max-w-sm bg-gray-900 text-white p-4 rounded-xl shadow-2xl border-l-4 border-[#E2725B] transition-all duration-300">
+        <p id="notification-message" class="text-sm font-medium"></p>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm py-4 px-6 flex justify-between items-center">
+        <div class="text-2xl font-bold text-[#0038A8]">MAROC<span class="text-[#E2725B]">.</span></div>
+        <div class="hidden lg:flex space-x-6 font-semibold text-xs uppercase tracking-widest">
+            <a href="#prep" class="hover:text-[#E2725B] transition">Préparation</a>
+            <a href="#ai-companion" class="hover:text-[#E2725B] text-[#0038A8] font-bold transition">Planificateur IA</a>
+            <a href="#scanner-souk" class="hover:text-[#E2725B] transition">Scanner Souk</a>
+            <a href="#regions" class="hover:text-[#E2725B] transition">Régions</a>
+            <a href="#postcard-ai" class="hover:text-[#E2725B] transition">Carte Postale IA</a>
+            <a href="#outils" class="hover:text-[#E2725B] transition">Outils</a>
+        </div>
+        <button onclick="downloadItineraryPDF()" class="bg-[#0038A8] text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-[#E2725B] transition shadow-md">TÉLÉCHARGER LE GUIDE</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-[70vh] flex items-center justify-center text-center px-4 overflow-hidden">
+        <div class="absolute inset-0 bg-black/40 z-10"></div>
+        <img src="doing-business-morocco.jpg_2.webp" 
+             onerror="this.onerror=null; this.src='doing-business-morocco.jpg.webp'; this.onerror=function(){this.src='https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&q=80&w=1600';}" 
+             alt="Maroc - Mosquée Hassan II" 
+             class="absolute inset-0 w-full h-full object-cover object-center">
+        <div class="relative z-20 text-white max-w-3xl">
+            <span class="uppercase tracking-[0.3em] text-xs font-bold bg-[#E2725B] px-3 py-1 rounded-full mb-4 inline-block">Édition Interactive & IA 2026</span>
+            <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6">MAROC AUTHENTIQUE</h1>
+            <p class="text-base md:text-xl font-light mb-8 italic">"Voyager mieux, plus local, et laissez notre IA concevoir votre aventure."</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#ai-companion" class="bg-[#E2725B] hover:scale-105 transition-transform text-white px-8 py-3.5 rounded-xl font-bold inline-block shadow-lg text-sm">PLANIFIER AVEC L'IA</a>
+                <a href="#scanner-souk" class="bg-white/20 hover:bg-white/30 transition text-white px-8 py-3.5 rounded-xl font-bold inline-block backdrop-blur-sm text-sm">SCANNER SOUK & ARTISANAT</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12 space-y-20">
+
+        <!-- Section: AI Customizer & Interactive Planner -->
+        <section id="ai-companion" class="scroll-mt-24">
+            <div class="bg-white rounded-[2.5rem] shadow-2xl p-6 md:p-12 border border-orange-100">
+                <div class="max-w-4xl mx-auto text-center mb-10">
+                    <span class="bg-orange-100 text-[#E2725B] text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full">Technologie Gemini 3.1 Flash</span>
+                    <h2 class="text-3xl md:text-5xl font-bold mt-3 mb-4 text-[#0038A8]">Votre Itinéraire Marocain Sur-Mesure</h2>
+                    <p class="text-gray-600 text-sm md:text-base">Entrez vos préférences ou cliquez sur un raccourci visuel du Nord pour laisser l'IA concevoir votre plan exclusif.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    <!-- Column 1: Configurator Form -->
+                    <div class="lg:col-span-5 bg-[#F4EFE6]/60 p-6 rounded-2xl border border-orange-50/50 space-y-5">
+                        <h3 class="text-lg font-bold text-[#2B2B2B] border-b pb-3 border-orange-200">Personnaliser mon voyage</h3>
+
+                        <!-- Interactive Quick Shortcuts -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Raccourcis visuels (Nord du Maroc)</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button onclick="selectQuickDestination('Chefchaouen', 'Photographie, Médina bleue, authenticité et calme')" class="group relative h-20 rounded-xl overflow-hidden shadow-sm hover:shadow-md border-2 border-transparent hover:border-[#E2725B] transition text-left focus:outline-none">
+                                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition z-10"></div>
+                                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('Chefchaouen.jpg');"></div>
+                                    <span class="absolute bottom-1 left-2 z-20 text-[10px] font-bold text-white uppercase tracking-wider">Chefchaouen</span>
+                                </button>
+                                <button onclick="selectQuickDestination('Tanger', 'Histoire internationale, Café Hafa, vue mer, grottes d\'Hercule')" class="group relative h-20 rounded-xl overflow-hidden shadow-sm hover:shadow-md border-2 border-transparent hover:border-[#E2725B] transition text-left focus:outline-none">
+                                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition z-10"></div>
+                                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('Tanger.jpg');"></div>
+                                    <span class="absolute bottom-1 left-2 z-20 text-[10px] font-bold text-white uppercase tracking-wider">Tanger</span>
+                                </button>
+                                <button onclick="selectQuickDestination('Akchour', 'Randonnée nature, cascades sauvages, baignade, pont de Dieu')" class="group relative h-20 rounded-xl overflow-hidden shadow-sm hover:shadow-md border-2 border-transparent hover:border-[#E2725B] transition text-left focus:outline-none">
+                                    <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition z-10"></div>
+                                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('Akchour.jpg');"></div>
+                                    <span class="absolute bottom-1 left-2 z-20 text-[10px] font-bold text-white uppercase tracking-wider">Akchour</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-bold mb-1.5">Combien de jours partez-vous ?</label>
+                            <input type="number" id="trip-days" value="5" min="1" max="30" class="w-full p-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0038A8] bg-white text-sm">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold mb-1.5">Style de Voyage & Budget quotidien</label>
+                            <select id="trip-budget" class="w-full p-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0038A8] bg-white text-sm">
+                                <option value="backpacker">Backpacker / Éco (300 - 450 DH / jour)</option>
+                                <option value="comfortable" selected>Confort / Intermédiaire (500 - 900 DH / jour)</option>
+                                <option value="luxury">Luxe Authentique (1500+ DH / jour)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold mb-1.5">Régions d'intérêt principales</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="flex items-center space-x-2 bg-white p-2 rounded-lg border border-gray-200 cursor-pointer hover:bg-orange-50 transition">
+                                    <input type="checkbox" id="check-nord" name="regions" value="Nord (Tanger, Chefchaouen)" checked class="rounded text-[#0038A8]">
+                                    <span class="text-xs font-semibold">Le Nord</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-white p-2 rounded-lg border border-gray-200 cursor-pointer hover:bg-orange-50 transition">
+                                    <input type="checkbox" id="check-centre" name="regions" value="Centre (Fès, Meknès)" class="rounded text-[#0038A8]">
+                                    <span class="text-xs font-semibold">Le Centre</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-white p-2 rounded-lg border border-gray-200 cursor-pointer hover:bg-orange-50 transition">
+                                    <input type="checkbox" id="check-sud" name="regions" value="Sud (Marrakech, Agafay)" checked class="rounded text-[#0038A8]">
+                                    <span class="text-xs font-semibold">Marrakech & Sud</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-white p-2 rounded-lg border border-gray-200 cursor-pointer hover:bg-orange-50 transition">
+                                    <input type="checkbox" id="check-desert" name="regions" value="Désert (Merzouga, Ouarzazate)" class="rounded text-[#0038A8]">
+                                    <span class="text-xs font-semibold">Le Désert</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold mb-1.5">Qu'aimez-vous faire ?</label>
+                            <input type="text" id="trip-interests" placeholder="ex: Randonnée, Street Food, Surf, Histoire..." class="w-full p-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0038A8] bg-white text-sm">
+                        </div>
+
+                        <button onclick="generateAITrip()" id="btn-generate" class="w-full bg-[#E2725B] text-white py-3.5 rounded-xl font-bold hover:bg-[#0038A8] transition-all flex items-center justify-center space-x-2 shadow-md text-sm">
+                            <span>Bismillah! Générer mon Itinéraire</span>
+                            <span id="planner-spinner" class="hidden animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></span>
+                        </button>
+                    </div>
+
+                    <!-- Column 2: Results & Interactive Dynamic Chart -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <!-- Chart Card -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                            <h3 id="chart-title" class="text-base font-bold text-[#0038A8] mb-3 text-center">Estimation du Budget quotidien par l'IA</h3>
+                            <div class="chart-container">
+                                <canvas id="budgetChart"></canvas>
+                            </div>
+                            <p class="text-[11px] text-center mt-2 text-gray-500 italic">Mise à jour dynamique en fonction des recommandations de l'IA.</p>
+                        </div>
+
+                        <!-- Generated Content Display Card -->
+                        <div class="bg-[#2B2B2B] text-white p-6 rounded-2xl shadow-xl min-h-[280px] flex flex-col justify-between relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#E2725B]/20 to-transparent rounded-full pointer-events-none"></div>
+                            
+                            <div id="itinerary-placeholder" class="py-10 text-center space-y-3">
+                                <p class="text-base text-gray-300 italic">"Votre voyage n'attend que vous. Modifiez les critères à gauche ou cliquez sur un raccourci visuel !"</p>
+                                <span class="inline-block px-3 py-1 rounded-full bg-white/10 text-[10px] uppercase tracking-widest text-[#E2725B] font-bold">Planificateur 100% Hors-Scams</span>
+                            </div>
+
+                            <div id="itinerary-result" class="hidden space-y-4">
+                                <div class="border-b border-white/10 pb-3">
+                                    <h4 id="res-title" class="text-xl font-bold text-[#E2725B]">Mon Itinéraire Personnalisé</h4>
+                                    <p class="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Conçu en temps réel par Simohamed (IA)</p>
+                                </div>
+                                <div id="res-body" class="text-xs leading-relaxed text-gray-200 max-h-[300px] overflow-y-auto pr-2 space-y-3">
+                                    <!-- Dynamic content goes here -->
+                                </div>
+                                <div class="bg-white/5 p-3 rounded-xl border border-white/10">
+                                    <h5 class="text-[11px] font-bold uppercase text-[#E2725B] tracking-wider mb-1.5">🔒 Astuces locales d'initiés :</h5>
+                                    <ul id="res-secrets" class="text-xs text-gray-300 space-y-1 list-disc list-inside">
+                                        <!-- Dynamic tips -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Souk Scanner (Multimodal Image Analysis) -->
+        <section id="scanner-souk" class="scroll-mt-24">
+            <div class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-orange-100">
+                <div class="max-w-3xl mx-auto text-center mb-8">
+                    <span class="bg-blue-100 text-[#0038A8] text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full">Analyse d'Image par IA</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-3 text-[#0038A8]">Scanner du Souk & Objets Artisanaux 📷</h2>
+                    <p class="text-gray-600 text-sm mt-2">Téléchargez la photo d'un tapis, d'une lanterne, d'un plat ou d'un menu en arabe/darija. L'IA Gemini analyse l'artisanat, vous donne la fourchette de prix juste en Dirhams (DH) et vous coach pour la négociation.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto">
+                    <div class="bg-[#F4EFE6] p-6 rounded-2xl border border-orange-100 text-center space-y-4">
+                        <div id="image-preview-container" class="w-full h-52 bg-white rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center overflow-hidden relative">
+                            <img id="image-preview" class="hidden w-full h-full object-cover">
+                            <div id="image-placeholder" class="text-gray-400 p-4">
+                                <svg class="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <p class="text-xs">Glissez une photo ou cliquez pour importer</p>
+                            </div>
+                        </div>
+                        <input type="file" id="souk-image-input" accept="image/*" onchange="previewSoukImage(event)" class="hidden">
+                        <div class="flex gap-3 justify-center">
+                            <button onclick="document.getElementById('souk-image-input').click()" class="bg-white text-[#2B2B2B] border border-gray-300 px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-50 transition">Choisir une image</button>
+                            <button onclick="analyzeSoukImage()" id="btn-analyze-img" class="bg-[#E2725B] text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-[#0038A8] transition shadow-md flex items-center space-x-1">
+                                <span>Analyser l'Objet</span>
+                                <span id="souk-spinner" class="hidden animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent ml-1"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#2B2B2B] text-white p-6 rounded-2xl min-h-[220px] flex flex-col justify-center">
+                        <h4 class="text-xs uppercase tracking-widest text-[#E2725B] font-bold mb-2">Résultat de l'Expertise IA :</h4>
+                        <div id="souk-analysis-result" class="text-xs text-gray-300 space-y-2 leading-relaxed italic">
+                            Importez une image de produit ou d'artisanat marocain pour obtenir une estimation de prix honnête et des astuces de détection de qualité.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chatbot & Voice Audio Guide Section -->
+        <section class="scroll-mt-24">
+            <div class="max-w-4xl mx-auto bg-gradient-to-r from-[#0038A8] to-[#1e53c4] text-white rounded-[2.5rem] p-6 md:p-10 shadow-2xl relative overflow-hidden">
+                <div class="grid md:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="md:col-span-5 space-y-4">
+                        <span class="text-[10px] uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full font-bold">Disponible 24h/7</span>
+                        <h3 class="text-2xl md:text-3xl font-bold leading-tight">Discutez avec Simohamed & Écoutez la Darija 🔊</h3>
+                        <p class="text-xs text-blue-100 leading-relaxed">
+                            Besoin d'une traduction rapide ? Cliquez pour écouter la véritable prononciation marocaine grâce à notre système audio Gemini TTS !
+                        </p>
+                        
+                        <!-- Quick TTS Buttons -->
+                        <div class="space-y-2 pt-2 border-t border-white/10">
+                            <p class="text-[11px] font-bold text-orange-200">Prononciations Vocales Instantanées :</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="speakDarijaPhrase('Bch7al hadchi? (Combien ça coûte ?)')" class="bg-white/10 hover:bg-white/20 text-white text-[11px] px-3 py-1.5 rounded-lg border border-white/20 flex items-center space-x-1 transition">
+                                    <span>🔊 Bch7al hadchi?</span>
+                                </button>
+                                <button onclick="speakDarijaPhrase('Ghalia bezzaf, n9os chwiya! (C\'est trop cher, baisse un peu !)')" class="bg-white/10 hover:bg-white/20 text-white text-[11px] px-3 py-1.5 rounded-lg border border-white/20 flex items-center space-x-1 transition">
+                                    <span>🔊 Ghalia bezzaf!</span>
+                                </button>
+                                <button onclick="speakDarijaPhrase('Salam Alaykoum, la choukrane (Bonjour, non merci)')" class="bg-white/10 hover:bg-white/20 text-white text-[11px] px-3 py-1.5 rounded-lg border border-white/20 flex items-center space-x-1 transition">
+                                    <span>🔊 La choukrane</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Container -->
+                    <div class="md:col-span-7 bg-white text-[#2B2B2B] rounded-2xl p-4 shadow-xl flex flex-col h-[380px] border border-blue-200">
+                        <div id="chat-box" class="flex-1 overflow-y-auto space-y-3 p-2 text-xs pr-1">
+                            <div class="flex items-start space-x-2.5">
+                                <div class="bg-blue-100 text-[#0038A8] font-bold w-7 h-7 rounded-full flex items-center justify-center text-[10px] flex-shrink-0">SM</div>
+                                <div class="bg-gray-100 p-2.5 rounded-2xl rounded-tl-none max-w-[85%] text-xs">
+                                    <p class="font-bold text-[10px] text-[#0038A8] mb-0.5">Simohamed</p>
+                                    Salam Alaykoum ! 🇲🇦 Je suis votre conseiller local. Dites-moi, vous prévoyez d'aller où au Maroc ou de quoi avez-vous besoin ?
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="chat-loading" class="hidden flex items-center space-x-2 px-3 py-1 text-xs text-gray-500 italic">
+                            <span class="animate-bounce">●</span><span class="animate-bounce [animation-delay:0.2s]">●</span><span class="animate-bounce [animation-delay:0.4s]">●</span>
+                            <span>Simohamed réfléchit...</span>
+                        </div>
+
+                        <div class="mt-3 flex items-center space-x-2 border-t pt-3 border-gray-100">
+                            <input type="text" id="chat-input" placeholder="Posez votre question..." onkeydown="handleChatKey(event)" class="flex-1 p-2.5 rounded-xl border border-gray-200 text-xs focus:outline-none focus:ring-2 focus:ring-[#0038A8]">
+                            <button onclick="sendChatMessage()" class="bg-[#E2725B] hover:bg-[#0038A8] transition text-white px-4 py-2.5 rounded-xl text-xs font-bold shadow-md">Envoyer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Explorateur de Régions -->
+        <section id="regions" class="scroll-mt-24 bg-white/40 py-12 -mx-4 px-4 rounded-[3rem]">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-[#0038A8]">Où s'évader ?</h2>
+                
+                <div class="flex justify-center space-x-4 md:space-x-12 mb-10 border-b border-gray-200">
+                    <button onclick="switchTab('nord')" id="tab-nord" class="pb-3 px-2 uppercase tracking-widest text-xs md:text-sm tab-active">Le Nord</button>
+                    <button onclick="switchTab('centre')" id="tab-centre" class="pb-3 px-2 uppercase tracking-widest text-xs md:text-sm">Le Centre</button>
+                    <button onclick="switchTab('sud')" id="tab-sud" class="pb-3 px-2 uppercase tracking-widest text-xs md:text-sm">Le Sud</button>
+                </div>
+
+                <!-- Tab Content Nord -->
+                <div id="content-nord" class="grid md:grid-cols-3 gap-6">
+                    <div class="group cursor-pointer">
+                        <div class="h-56 rounded-xl bg-cover bg-center mb-3 transition-transform group-hover:scale-105 shadow-md" style="background-image: url('Chefchaouen.jpg');"></div>
+                        <h4 class="font-bold text-lg mb-1 text-[#2B2B2B]">Chefchaouen</h4>
+                        <p class="text-xs text-gray-500 mb-3 italic">La Perle Bleue du Rif</p>
+                        <button onclick="askAIAbout('Chefchaouen')" class="text-[#0038A8] font-bold text-xs underline hover:text-[#E2725B]">DEMANDER DES INFOS IA</button>
+                    </div>
+                    <div class="group cursor-pointer">
+                        <div class="h-56 rounded-xl bg-cover bg-center mb-3 transition-transform group-hover:scale-105 shadow-md" style="background-image: url('Tanger.jpg');"></div>
+                        <h4 class="font-bold text-lg mb-1 text-[#2B2B2B]">Tanger</h4>
+                        <p class="text-xs text-gray-500 mb-3 italic">L'Intercontinentale</p>
+                        <button onclick="askAIAbout('Tanger')" class="text-[#0038A8] font-bold text-xs underline hover:text-[#E2725B]">DEMANDER DES INFOS IA</button>
+                    </div>
+                    <div class="group cursor-pointer">
+                        <div class="h-56 rounded-xl bg-cover bg-center mb-3 transition-transform group-hover:scale-105 shadow-md" style="background-image: url('Akchour.jpg');"></div>
+                        <h4 class="font-bold text-lg mb-1 text-[#2B2B2B]">Akchour</h4>
+                        <p class="text-xs text-gray-500 mb-3 italic">Les Cascades Sauvages</p>
+                        <button onclick="askAIAbout('Randonnée à Akchour')" class="text-[#0038A8] font-bold text-xs underline hover:text-[#E2725B]">DEMANDER DES INFOS IA</button>
+                    </div>
+                </div>
+
+                <div id="content-centre" class="hidden grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-5 rounded-2xl flex flex-col md:flex-row gap-5 shadow-sm">
+                        <div class="w-full md:w-1/2 h-44 rounded-lg bg-[url('https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center"></div>
+                        <div class="md:w-1/2 flex flex-col justify-between">
+                            <div>
+                                <h4 class="font-bold text-xl mb-1 text-[#2B2B2B]">Marrakech</h4>
+                                <p class="text-xs text-gray-600 mb-3">Évitez les pièges de Jemaa El-Fna et découvrez les jardins secrets du Guéliz.</p>
+                            </div>
+                            <span onclick="askAIAbout('Marrakech')" class="text-xs font-bold text-[#E2725B] cursor-pointer hover:underline">GÉNÉRER UN PLAN DE SURVIE →</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl flex flex-col md:flex-row gap-6 shadow-sm">
+                        <div class="w-full md:w-1/2 h-44 rounded-lg bg-[url('https://images.unsplash.com/photo-1564507004663-b6dfb3c824d5?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center"></div>
+                        <div class="md:w-1/2 flex flex-col justify-between">
+                            <div>
+                                <h4 class="font-bold text-xl mb-1 text-[#2B2B2B]">Fès</h4>
+                                <p class="text-xs text-gray-600 mb-3">Le labyrinthe spirituel. Apprenez à vous perdre dans la plus grande médina du monde.</p>
+                            </div>
+                            <span onclick="askAIAbout('Fès')" class="text-xs font-bold text-[#E2725B] cursor-pointer hover:underline">GÉNÉRER UN PLAN DE SURVIE →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="content-sud" class="hidden text-center py-8">
+                    <h4 class="text-2xl font-bold mb-3 text-[#2B2B2B]">L'Appel du Sahara & Côte Atlantique</h4>
+                    <p class="max-w-xl mx-auto text-xs text-gray-600 mb-6">De Merzouga aux vagues de Taghazout, organisez votre périple sans intermédiaires chers.</p>
+                    <button onclick="askAIAbout('Sahara / Merzouga / Taghazout')" class="bg-[#0038A8] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-[#E2725B] transition text-xs">Obtenir les astuces Sud par l'IA</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: AI Postcard Generator -->
+        <section id="postcard-ai" class="scroll-mt-24">
+            <div class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-orange-100 max-w-4xl mx-auto">
+                <div class="text-center mb-8">
+                    <span class="bg-orange-100 text-[#E2725B] text-xs font-bold uppercase tracking-wider px-4 py-1 rounded-full">Génération d'Image Gemini 3.1</span>
+                    <h2 class="text-3xl font-bold mt-3 text-[#0038A8]">Créateur de Carte Postale Souvenir 🎨</h2>
+                    <p class="text-xs text-gray-600 mt-2">Créez une illustration ou carte postale souvenir personnalisée de votre voyage au Maroc grâce à l'IA.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold mb-1">Décrivez votre carte postale :</label>
+                            <textarea id="postcard-prompt" rows="3" class="w-full p-3 rounded-xl border border-gray-300 text-xs focus:outline-none focus:ring-2 focus:ring-[#0038A8]" placeholder="ex: Une aquarelle colorée d'un chat endormi dans une ruelle bleue de Chefchaouen avec des pots de fleurs"></textarea>
+                        </div>
+                        <button onclick="generatePostcard()" id="btn-postcard" class="w-full bg-[#E2725B] text-white py-3 rounded-xl font-bold text-xs hover:bg-[#0038A8] transition shadow-md flex items-center justify-center space-x-2">
+                            <span>Générer ma Carte Postale</span>
+                            <span id="postcard-spinner" class="hidden animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent"></span>
+                        </button>
+                    </div>
+
+                    <div class="bg-gray-100 rounded-2xl h-60 flex items-center justify-center overflow-hidden border border-gray-200 relative">
+                        <img id="postcard-result-img" class="hidden w-full h-full object-cover">
+                        <div id="postcard-placeholder-text" class="text-xs text-gray-400 p-4 text-center">
+                            Votre carte postale générée apparaîtra ici.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Search Grounding Real-Time Info -->
+        <section class="scroll-mt-24">
+            <div class="bg-white rounded-[2.5rem] p-8 shadow-xl border border-blue-100 max-w-4xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                    <div>
+                        <span class="bg-blue-100 text-[#0038A8] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Recherche Web en Direct</span>
+                        <h3 class="text-2xl font-bold mt-2 text-[#0038A8]">Météo & Événements en Temps Réel 🌐</h3>
+                    </div>
+                    <div class="mt-4 md:mt-0 flex gap-2">
+                        <input type="text" id="grounding-city" value="Marrakech" class="p-2 border rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0038A8]" placeholder="Ville du Maroc...">
+                        <button onclick="fetchRealtimeMoroccoInfo()" id="btn-grounding" class="bg-[#0038A8] text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#E2725B] transition shadow-md">Chercher</button>
+                    </div>
+                </div>
+
+                <div id="grounding-results" class="bg-[#F4EFE6] p-5 rounded-xl border border-orange-100 text-xs text-gray-700 min-h-[100px]">
+                    Cliquez sur "Chercher" pour obtenir les conditions météo actuelles, événements culturels récents et infos de transport ONCF via la recherche Google en direct.
+                </div>
+                <div id="grounding-sources" class="mt-3 text-[10px] text-gray-400 space-x-2"></div>
+            </div>
+        </section>
+
+        <!-- Section 3: Boîte à Outils -->
+        <section id="outils" class="scroll-mt-24">
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h2 class="text-2xl font-bold mb-4 text-[#2B2B2B]">Lexique de Survie 🗣️</h2>
+                        <p class="text-xs text-gray-500 mb-4">Cliquez sur une expression pour l'écouter ou poser une question à l'IA.</p>
+                        <ul class="space-y-3">
+                            <li onclick="speakDarijaPhrase('Salam Alaykoum')" class="flex justify-between p-3.5 bg-white rounded-xl shadow-sm hover:shadow-md transition cursor-pointer text-xs">
+                                <span class="font-bold">🔊 Salam Alaykoum</span>
+                                <span class="text-gray-400 italic">Salutation standard</span>
+                            </li>
+                            <li onclick="speakDarijaPhrase('Ghalia bezzaf, n9os chwiya')" class="flex justify-between p-3.5 bg-white rounded-xl shadow-sm hover:shadow-md transition cursor-pointer text-xs">
+                                <span class="font-bold">🔊 Ghalia Bezzaf</span>
+                                <span class="text-[#E2725B] font-bold">Négociation</span>
+                            </li>
+                            <li onclick="speakDarijaPhrase('Choukrane bezzaf')" class="flex justify-between p-3.5 bg-white rounded-xl shadow-sm hover:shadow-md transition cursor-pointer text-xs">
+                                <span class="font-bold">🔊 Choukrane</span>
+                                <span class="text-gray-400 italic">Merci beaucoup</span>
+                            </li>
+                            <li onclick="speakDarijaPhrase('3afak 3aweni')" class="flex justify-between p-3.5 bg-white rounded-xl shadow-sm hover:shadow-md transition cursor-pointer text-xs">
+                                <span class="font-bold">🔊 3afak</span>
+                                <span class="text-gray-400 italic">S'il vous plaît</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-[#0038A8] text-white p-8 rounded-3xl flex flex-col justify-center items-center text-center shadow-xl">
+                        <h3 class="text-2xl font-bold mb-3">Besoin du Guide Complet ?</h3>
+                        <p class="mb-6 font-light text-xs opacity-90">Accédez à plus de 150 pages de conseils exclusifs, cartes détaillées et contacts de locaux.</p>
+                        <div class="text-3xl font-bold mb-6">90 DH <span class="text-xs font-normal opacity-70">au lieu de 150 DH</span></div>
+                        <button onclick="orderViaWhatsapp()" class="w-full bg-[#E2725B] py-3.5 rounded-xl text-xs font-bold hover:bg-white hover:text-[#E2725B] transition shadow-md">COMMANDER VIA WHATSAPP</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#2B2B2B] text-white py-10 text-center text-xs">
+        <p class="opacity-50 mb-3">&copy; 2026 Maroc Authentique. Tous droits réservés.</p>
+        <div class="flex justify-center space-x-6">
+            <span class="cursor-pointer hover:text-[#E2725B]">Instagram</span>
+            <span class="cursor-pointer hover:text-[#E2725B]">YouTube</span>
+            <span class="cursor-pointer hover:text-[#E2725B]">TikTok</span>
+        </div>
+    </footer>
+
+    <script>
+        // Global variables
+        let budgetChartInstance = null;
+        let generatedItineraryText = "";
+        let selectedSoukImageBase64 = null;
+
+        // API Key configuration (managed automatically by Canvas runtime)
+        const apiKey = "";
+        const geminiFlashModel = "gemini-3-flash-preview";
+
+        // Initialize Chart on load
+        window.onload = function () {
+            initChart([120, 100, 80, 50]);
+        }
+
+        // Initialize ChartJS with safety guards
+        function initChart(dataValues) {
+            const chartCanvas = document.getElementById('budgetChart');
+            if (!chartCanvas) return;
+            const ctx = chartCanvas.getContext('2d');
+            if (budgetChartInstance) {
+                budgetChartInstance.destroy();
+            }
+            budgetChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Logement (DH)', 'Nourriture (DH)', 'Transport (DH)', 'Loisirs (DH)'],
+                    datasets: [{
+                        data: dataValues,
+                        backgroundColor: ['#0038A8', '#E2725B', '#d6caaf', '#2B2B2B'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                font: { size: 11, family: 'Inter' }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Safe Notification System
+        function showNotification(message) {
+            const box = document.getElementById('custom-notification');
+            const msg = document.getElementById('notification-message');
+            if (msg) msg.innerText = message;
+            if (box) {
+                box.classList.remove('hidden');
+                setTimeout(() => {
+                    box.classList.add('hidden');
+                }, 5000);
+            } else {
+                console.log("Notification:", message);
+            }
+        }
+
+        // Navigation par Onglets
+        function switchTab(region) {
+            const nord = document.getElementById('content-nord');
+            const centre = document.getElementById('content-centre');
+            const sud = document.getElementById('content-sud');
+            
+            if (nord) nord.classList.add('hidden');
+            if (centre) centre.classList.add('hidden');
+            if (sud) sud.classList.add('hidden');
+            
+            document.getElementById('tab-nord')?.classList.remove('tab-active');
+            document.getElementById('tab-centre')?.classList.remove('tab-active');
+            document.getElementById('tab-sud')?.classList.remove('tab-active');
+
+            const target = document.getElementById('content-' + region);
+            if (target) {
+                target.classList.remove('hidden');
+                if (region !== 'sud') {
+                    target.classList.add('grid');
+                } else {
+                    target.classList.remove('grid');
+                }
+            }
+
+            document.getElementById('tab-' + region)?.classList.add('tab-active');
+        }
+
+        // Quick shortcut selection
+        function selectQuickDestination(destination, defaultInterests) {
+            const checkNord = document.getElementById('check-nord');
+            if (checkNord) checkNord.checked = true;
+            
+            const tripInterests = document.getElementById('trip-interests');
+            if (tripInterests) tripInterests.value = defaultInterests;
+            
+            const tripDays = document.getElementById('trip-days');
+            if (tripDays) tripDays.value = "4";
+            
+            showNotification(`Destination "${destination}" sélectionnée ! Preferences IA adaptées.`);
+        }
+
+        // Generate Custom Trip via Gemini structured output
+        async function generateAITrip() {
+            const days = document.getElementById('trip-days')?.value || 5;
+            const budgetType = document.getElementById('trip-budget')?.value || 'comfortable';
+            const selectedRegions = Array.from(document.querySelectorAll('input[name="regions"]:checked')).map(el => el.value);
+            const interests = document.getElementById('trip-interests')?.value || "Authenticité, local";
+
+            if (selectedRegions.length === 0) {
+                showNotification("Veuillez choisir au moins une région.");
+                return;
+            }
+
+            const spinner = document.getElementById('planner-spinner');
+            const btn = document.getElementById('btn-generate');
+            if (spinner) spinner.classList.remove('hidden');
+            if (btn) btn.disabled = true;
+
+            const systemPrompt = "Vous êtes Simohamed, expert du Maroc authentique. Vous aimez les conseils d'initiés, l'économie locale et vous détestez les arnaques de touristes. Vous répondez TOUJOURS dans une structure JSON valide selon le schéma requis.";
+
+            const userQuery = `Génère un voyage de ${days} jours au Maroc. Style de budget: ${budgetType}. Régions visitées: ${selectedRegions.join(', ')}. Intérêts majeurs: ${interests}. Propose un itinéraire quotidien, des secrets locaux (1 ou 2 phrases par secret), et donne des estimations réalistes de coûts quotidiens en Dirhams (DH) pour le Logement, la Nourriture, le Transport et les Loisirs.`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            tripTitle: { type: "STRING" },
+                            itinerary: { type: "STRING" },
+                            budgetLogement: { type: "NUMBER" },
+                            budgetNourriture: { type: "NUMBER" },
+                            budgetTransport: { type: "NUMBER" },
+                            budgetLoisirs: { type: "NUMBER" },
+                            localSecrets: {
+                                type: "ARRAY",
+                                items: { type: "STRING" }
+                            }
+                        },
+                        required: ["tripTitle", "itinerary", "budgetLogement", "budgetNourriture", "budgetTransport", "budgetLoisirs", "localSecrets"]
+                    }
+                },
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiFlashModel}:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (text) {
+                    const parsedJson = JSON.parse(text);
+                    document.getElementById('itinerary-placeholder')?.classList.add('hidden');
+                    document.getElementById('itinerary-result')?.classList.remove('hidden');
+
+                    if (document.getElementById('res-title')) document.getElementById('res-title').innerText = parsedJson.tripTitle;
+                    if (document.getElementById('res-body')) document.getElementById('res-body').innerHTML = parsedJson.itinerary;
+                    
+                    generatedItineraryText = parsedJson.itinerary;
+
+                    const secretsContainer = document.getElementById('res-secrets');
+                    if (secretsContainer) {
+                        secretsContainer.innerHTML = '';
+                        parsedJson.localSecrets.forEach(secret => {
+                            const li = document.createElement('li');
+                            li.innerText = secret;
+                            secretsContainer.appendChild(li);
+                        });
+                    }
+
+                    initChart([
+                        parsedJson.budgetLogement,
+                        parsedJson.budgetNourriture,
+                        parsedJson.budgetTransport,
+                        parsedJson.budgetLoisirs
+                    ]);
+
+                    showNotification("Itinéraire mis à jour avec succès !");
+                }
+            } catch (error) {
+                console.error("Gemini Error:", error);
+                showNotification("Itinéraire généré en mode secours.");
+            } finally {
+                if (spinner) spinner.classList.add('hidden');
+                if (btn) btn.disabled = false;
+            }
+        }
+
+        // Multimodal Vision - Souk Scanner
+        function previewSoukImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById('image-preview');
+                const placeholder = document.getElementById('image-placeholder');
+                if (img) {
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                }
+                if (placeholder) placeholder.classList.add('hidden');
+                selectedSoukImageBase64 = e.target.result.split(',')[1];
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function analyzeSoukImage() {
+            if (!selectedSoukImageBase64) {
+                showNotification("Veuillez d'abord sélectionner une photo !");
+                return;
+            }
+
+            const spinner = document.getElementById('souk-spinner');
+            const resultBox = document.getElementById('souk-analysis-result');
+            if (spinner) spinner.classList.remove('hidden');
+
+            const prompt = "Analyse cet objet artisanal ou plat/menu marocain. Indique : 1. Ce que c'est. 2. La fourchette de prix juste en Dirhams (DH) dans les souks. 3. Comment vérifier la vraie qualité (ex: cuir, tapis, lanterne) et 4. Une phrase en Darija pour négocier.";
+
+            const payload = {
+                contents: [{
+                    role: "user",
+                    parts: [
+                        { text: prompt },
+                        { inlineData: { mimeType: "image/jpeg", data: selectedSoukImageBase64 } }
+                    ]
+                }]
+            };
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiFlashModel}:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (resultBox && text) {
+                    resultBox.innerHTML = text.replace(/\n/g, '<br>');
+                }
+            } catch (err) {
+                console.error("Souk Vision Error:", err);
+                showNotification("Impossible d'analyser l'image pour l'instant.");
+            } finally {
+                if (spinner) spinner.classList.add('hidden');
+            }
+        }
+
+        // Gemini TTS Audio Pronunciation Generator
+        async function speakDarijaPhrase(phrase) {
+            showNotification(`Génération audio pour : "${phrase}"...`);
+
+            const payload = {
+                contents: [{
+                    parts: [{ text: `Say in authentic clear Moroccan Darija accent: ${phrase}` }]
+                }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: {
+                        voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } }
+                    }
+                }
+            };
+
+            const ttsModel = "gemini-2.5-flash-preview-tts";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${ttsModel}:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const part = result?.candidates?.[0]?.content?.parts?.[0];
+                const audioData = part?.inlineData?.data;
+                const mimeType = part?.inlineData?.mimeType;
+
+                if (audioData && mimeType) {
+                    const sampleRateMatch = mimeType.match(/rate=(\d+)/);
+                    const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 24000;
+                    
+                    const pcmBuffer = base64ToArrayBuffer(audioData);
+                    const pcm16 = new Int16Array(pcmBuffer);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    const audioUrl = URL.createObjectURL(wavBlob);
+                    
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                } else {
+                    showNotification("Audio non disponible actuellement.");
+                }
+            } catch (err) {
+                console.error("TTS Error:", err);
+                showNotification("Erreur lors de la lecture audio.");
+            }
+        }
+
+        // Gemini Image Generation (Carte Postale Souvenir)
+        async function generatePostcard() {
+            const promptText = document.getElementById('postcard-prompt')?.value || "A artistic watercolor postcard of Morocco desert and camels under sunset";
+            const spinner = document.getElementById('postcard-spinner');
+            const resultImg = document.getElementById('postcard-result-img');
+            const placeholderText = document.getElementById('postcard-placeholder-text');
+
+            if (spinner) spinner.classList.remove('hidden');
+
+            const payload = {
+                contents: [{ parts: [{ text: promptText }] }],
+                generationConfig: {
+                    responseModalities: ['TEXT', 'IMAGE']
+                }
+            };
+
+            const imageModel = "gemini-3.1-flash-lite-image";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${imageModel}:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const part = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+                
+                if (part && resultImg) {
+                    resultImg.src = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+                    resultImg.classList.remove('hidden');
+                    if (placeholderText) placeholderText.classList.add('hidden');
+                    showNotification("Carte postale créée avec succès !");
+                }
+            } catch (err) {
+                console.error("Image Gen Error:", err);
+                showNotification("Erreur lors de la création d'image.");
+            } finally {
+                if (spinner) spinner.classList.add('hidden');
+            }
+        }
+
+        // Google Search Grounding (Live Weather & Events)
+        async function fetchRealtimeMoroccoInfo() {
+            const city = document.getElementById('grounding-city')?.value || "Marrakech";
+            const resultsBox = document.getElementById('grounding-results');
+            const sourcesBox = document.getElementById('grounding-sources');
+
+            if (resultsBox) resultsBox.innerHTML = "Recherche en direct sur Google...";
+
+            const userQuery = `Quelles sont la météo actuelle à ${city} au Maroc et les infos récentes de transport ou événements culturels ?`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                tools: [{ "google_search": {} }]
+            };
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiFlashModel}:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+                const text = candidate?.content?.parts?.[0]?.text;
+
+                if (text && resultsBox) {
+                    resultsBox.innerHTML = text.replace(/\n/g, '<br>');
+
+                    // Extract search sources
+                    const attributions = candidate?.groundingMetadata?.groundingAttributions || [];
+                    if (sourcesBox) {
+                        sourcesBox.innerHTML = "Sources : ";
+                        attributions.forEach(attr => {
+                            if (attr.web?.uri && attr.web?.title) {
+                                const a = document.createElement('a');
+                                a.href = attr.web.uri;
+                                a.target = "_blank";
+                                a.className = "underline text-[#0038A8]";
+                                a.innerText = attr.web.title;
+                                sourcesBox.appendChild(a);
+                            }
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error("Search Grounding Error:", err);
+                if (resultsBox) resultsBox.innerHTML = "Impossible de récupérer les infos en direct pour le moment.";
+            }
+        }
+
+        // Helper PCM to WAV Audio converter
+        function pcmToWav(pcm16Array, sampleRate) {
+            const buffer = new ArrayBuffer(44 + pcm16Array.length * 2);
+            const view = new DataView(buffer);
+
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + pcm16Array.length * 2, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, pcm16Array.length * 2, true);
+
+            for (let i = 0; i < pcm16Array.length; i++) {
+                view.setInt16(44 + i * 2, pcm16Array[i], true);
+            }
+
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+
+        function base64ToArrayBuffer(base64) {
+            const binaryString = atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        // Chatbot Interface Logic
+        async function sendChatMessage() {
+            const inputField = document.getElementById('chat-input');
+            const userMsg = inputField ? inputField.value.trim() : '';
+            if (!userMsg) return;
+
+            renderMessage(userMsg, 'user');
+            if (inputField) inputField.value = '';
+
+            const chatLoading = document.getElementById('chat-loading');
+            if (chatLoading) chatLoading.classList.remove('hidden');
+
+            const systemPrompt = "Tu es Simohamed, un guide local marocain de confiance. Tu parles darija de manière drôle et chaleureuse, mélangée à du français. Sois toujours de bon conseil, poli, authentique et protège l'utilisateur comme un frère.";
+
+            const payload = {
+                contents: [{ role: "user", parts: [{ text: userMsg }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiFlashModel}:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const textResponse = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (textResponse) {
+                    renderMessage(textResponse, 'bot');
+                }
+            } catch (error) {
+                console.error("Chat Error:", error);
+                renderMessage("Désolé khouya, j'ai eu un petit souci de réseau.", 'bot');
+            } finally {
+                if (chatLoading) chatLoading.classList.add('hidden');
+            }
+        }
+
+        function handleChatKey(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        function renderMessage(text, sender) {
+            const chatBox = document.getElementById('chat-box');
+            if (!chatBox) return;
+
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex items-start space-x-2.5 ${sender === 'user' ? 'justify-end' : ''}`;
+
+            const avatarClass = sender === 'user' ? 'bg-[#E2725B] text-white' : 'bg-blue-100 text-[#0038A8]';
+            const avatarName = sender === 'user' ? 'ME' : 'SM';
+            const nameLabel = sender === 'user' ? 'Vous' : 'Simohamed';
+            const cardBgClass = sender === 'user' ? 'bg-[#0038A8] text-white rounded-tr-none' : 'bg-gray-100 text-[#2B2B2B] rounded-tl-none';
+
+            wrapper.innerHTML = `
+                ${sender === 'bot' ? `<div class="${avatarClass} font-bold w-7 h-7 rounded-full flex items-center justify-center text-[10px] flex-shrink-0">${avatarName}</div>` : ''}
+                <div class="${cardBgClass} p-2.5 rounded-2xl max-w-[85%] text-xs">
+                    <p class="font-bold text-[10px] ${sender === 'user' ? 'text-orange-200' : 'text-[#0038A8]'} mb-0.5">${nameLabel}</p>
+                    <p class="leading-relaxed whitespace-pre-line">${text}</p>
+                </div>
+                ${sender === 'user' ? `<div class="${avatarClass} font-bold w-7 h-7 rounded-full flex items-center justify-center text-[10px] flex-shrink-0">${avatarName}</div>` : ''}
+            `;
+            chatBox.appendChild(wrapper);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function askAIAbout(topic) {
+            const chatInput = document.getElementById('chat-input');
+            if (chatInput) {
+                chatInput.value = `Parle-moi de : ${topic} au Maroc. Donne-moi tes meilleurs secrets d'initié.`;
+                sendChatMessage();
+            }
+        }
+
+        async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok && retries > 0) {
+                    throw new Error(`HTTP Error: ${response.status}`);
+                }
+                return response;
+            } catch (error) {
+                if (retries > 0) {
+                    await new Promise(res => setTimeout(res, delay));
+                    return fetchWithRetry(url, options, retries - 1, delay * 2);
+                }
+                throw error;
+            }
+        }
+
+        function downloadItineraryPDF() {
+            const textToSave = generatedItineraryText || "Itinéraire de voyage Maroc Authentique 2026.";
+            const blob = new Blob([textToSave.replace(/<[^>]*>/g, '')], { type: "text/plain;charset=utf-8" });
+            const tempUrl = URL.createObjectURL(blob);
+            
+            const a = document.createElement("a");
+            a.href = tempUrl;
+            a.download = "Mon_Guide_Maroc_Authentique.txt";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showNotification("Téléchargement du planificateur de voyage généré !");
+        }
+
+        function orderViaWhatsapp() {
+            const phoneNumber = "212600000000";
+            const message = encodeURIComponent("Bonjour ! Je souhaite commander le guide interactif complet pour 90 DH.");
+            window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>
